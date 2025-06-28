@@ -4,50 +4,27 @@ const urlsToCache = [
   '/bleu-smart-flow-deploy/',
   '/bleu-smart-flow-deploy/index.html',
   '/bleu-smart-flow-deploy/manifest.json',
-  '/bleu-smart-flow-deploy/assets/index-lDloF4IK.js',
-  '/bleu-smart-flow-deploy/assets/index-IGc9O9rH.css'
+  '/bleu-smart-flow-deploy/assets/index.js',
+  '/bleu-smart-flow-deploy/assets/index.css',
 ];
 
-// Install event - cache resources with logging per file to debug 404s
-self.addEventListener('install', function(event) {
+self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(function(cache) {
-        console.log('Opened cache');
-        urlsToCache.forEach(url => {
-          fetch(url).then(resp => {
-            if (!resp.ok) {
-              console.error('404 while caching:', url);
-            }
-          }).catch(err => console.error('Error fetching:', url, err));
-        });
-        return cache.addAll(urlsToCache);
-      })
+      .then(cache => cache.addAll(urlsToCache))
   );
 });
 
-// Fetch event - serve cached content when offline
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request)
-      .then(function(response) {
-        return response || fetch(event.request);
-      })
+    caches.match(event.request).then(response => response || fetch(event.request))
   );
 });
 
-// Activate event - clean up old caches
-self.addEventListener('activate', function(event) {
+self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(function(cacheNames) {
-      return Promise.all(
-        cacheNames.map(function(cacheName) {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
+    caches.keys().then(keys => Promise.all(
+      keys.map(key => key !== CACHE_NAME && caches.delete(key))
+    ))
   );
 });

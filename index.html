@@ -1,35 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>bleu-smart-flow</title>
     <meta name="description" content="Lovable Generated Project" />
     <meta name="author" content="Lovable" />
-
-    <meta property="og:title" content="bleu-smart-flow" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <link rel="manifest" href="https://bobbyleu1.github.io/bleu-smartflow-manifest/manifest.json">
-    <script type="module" crossorigin src="/assets/index-DHtP01o6.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-IGc9O9rH.css">
-  </head>
-
-  <body>
+    <link rel="manifest" href="/bleu-smart-flow-deploy/manifest.json" />
+    <link rel="stylesheet" href="/bleu-smart-flow-deploy/assets/index.css" />
+</head>
+<body>
     <div id="root"></div>
+    <script type="module" src="/bleu-smart-flow-deploy/assets/index.js"></script>
     <script>
       if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js')
-        .then(function() { console.log("Service Worker Registered"); });
+        navigator.serviceWorker.register('/bleu-smart-flow-deploy/service-worker.js')
+          .then(() => console.log("Service Worker Registered"));
       }
     </script>
-    <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
