@@ -1,26 +1,18 @@
 
-const CACHE_NAME = 'bleu-smartflow-v1';
+const CACHE_NAME = 'smart-invoice-v1';
 const urlsToCache = [
-  '/bleu-smart-flow-deploy/',
-  '/bleu-smart-flow-deploy/index.html',
-  '/bleu-smart-flow-deploy/manifest.json',
-  '/bleu-smart-flow-deploy/assets/index-lDloF4IK.js',
-  '/bleu-smart-flow-deploy/assets/index-IGc9O9rH.css'
+  '/',
+  '/static/js/bundle.js',
+  '/static/css/main.css',
+  '/manifest.json'
 ];
 
-// Install event - cache resources with logging per file to debug 404s
+// Install event - cache resources
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(function(cache) {
         console.log('Opened cache');
-        urlsToCache.forEach(url => {
-          fetch(url).then(resp => {
-            if (!resp.ok) {
-              console.error('404 while caching:', url);
-            }
-          }).catch(err => console.error('Error fetching:', url, err));
-        });
         return cache.addAll(urlsToCache);
       })
   );
@@ -31,8 +23,10 @@ self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request)
       .then(function(response) {
+        // Return cached version or fetch from network
         return response || fetch(event.request);
-      })
+      }
+    )
   );
 });
 
